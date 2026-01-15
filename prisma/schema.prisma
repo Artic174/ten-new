@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(STUDENT)
+  className    String?
+  absen        Int?
+  createdAt    DateTime @default(now())
+
+  PrayerRecords PrayerRecord[]
+  Schedules     Schedule[] @relation("creatorSchedules")
+}
+
+model Schedule {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  date        DateTime
+  startTime   String?
+  endTime     String?
+  createdBy   String
+  creator     User     @relation(fields: [createdBy], references: [id], name: "creatorSchedules")
+  createdAt   DateTime @default(now())
+}
+
+model PrayerRecord {
+  id         String   @id @default(uuid())
+  studentId  String
+  student    User     @relation(fields: [studentId], references: [id])
+  date       DateTime
+  dzuhur     Boolean  @default(false)
+  note       String?
+  haid       Boolean  @default(false)
+  recordedBy String?
+  recorder   User?    @relation(fields: [recordedBy], references: [id])
+  updatedBy  String?
+  updater    User?    @relation(fields: [updatedBy], references: [id])
+  updatedAt  DateTime?
+  createdAt  DateTime @default(now())
+
+  @@unique([studentId, date])
+}
+
+enum Role {
+  STUDENT
+  BENDAHARA
+  KEROHANIAN
+  ADMIN
+}
