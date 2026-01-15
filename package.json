@@ -1,0 +1,20 @@
+{
+  "name": "ten-new",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie": "^0.5.0",
+    "dayjs": "^1.11.9",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.5.0",
+    "next": "13.5.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}
